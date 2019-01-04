@@ -8,6 +8,25 @@ router.get('/meetups/:meetupId', meetupController.getMeetup);
 router.get('/meetups', meetupController.getMeetups);
 
 router.post(
+  '/meetups/:meetupId/rsvps',
+  [
+    checkSchema({
+      meetupId: {
+        in: ['params'],
+        errorMessage: 'Meetup key should be a number',
+        isNumeric: true,
+      },
+    }),
+    body('topic', 'Topic should be more than 5 characters')
+      .isLength({ min: 5 }),
+    body('status', 'Status expects only "yes", "no" and "maybe"')
+      .isIn(['yes', 'no', 'maybe']),
+
+  ],
+  meetupController.rsvpForMeetup,
+);
+
+router.post(
   '/meetup',
   [
     body('topic', 'Topic should be more than 5 characters')

@@ -224,3 +224,106 @@ describe('/GET/:meetupId Meetup', () => {
             });
   });
 });
+describe('/Create meetup rsvp', () => {
+  it('it should not create a new rsvp without the topic field', (done) => {
+    const rsvp = {
+      status: 'yes',
+    };
+    chai.request(server)
+    .post('/api/v1/meetups/112/rsvps')
+    .send(rsvp)
+    .end((err, res) => {
+      res.should.have.status(422);
+      res.body.should.be.a('object');
+      res.body.error.should.be.a('string');
+      res.body.should.have.property('error').eql('Topic field is required');
+      done();
+    });
+  });
+
+  it('it should not create a new rsvp without the status field', (done) => {
+    const rsvp = {
+      topic: 'rsvp me and them',
+    };
+    chai.request(server)
+    .post('/api/v1/meetups/112/rsvps')
+    .send(rsvp)
+    .end((err, res) => {
+      res.should.have.status(422);
+      res.body.should.be.a('object');
+      res.body.error.should.be.a('string');
+      res.body.should.have.property('error').eql('Status field is required');
+      done();
+    });
+  });
+
+  it('it should not create a new rsvp if the meetup id is not a number', (done) => {
+    const rsvp = {
+      topic: 'rsvp me and them',
+      status: 'yes',
+    };
+    chai.request(server)
+    .post('/api/v1/meetups/abc/rsvps')
+    .send(rsvp)
+    .end((err, res) => {
+      res.should.have.status(422);
+      res.body.should.be.a('object');
+      res.body.error.should.be.a('string');
+      res.body.should.have.property('error').eql('Meetup key should be a number');
+      done();
+    });
+  });
+
+  it('it should not create a new rsvp if topic characters is less than 5', (done) => {
+    const rsvp = {
+      topic: 'rsv',
+      status: 'yes',
+    };
+    chai.request(server)
+    .post('/api/v1/meetups/112/rsvps')
+    .send(rsvp)
+    .end((err, res) => {
+      res.should.have.status(422);
+      res.body.should.be.a('object');
+      res.body.error.should.be.a('string');
+      res.body.should.have.property('error').eql('Topic should be more than 5 characters');
+      done();
+    });
+  });
+
+  it('it should not create a new rsvp if status value is not equal to YES NO or MAYBE', (done) => {
+    const rsvp = {
+      topic: 'rsvp stuff',
+      status: 'postpone',
+    };
+    chai.request(server)
+    .post('/api/v1/meetups/112/rsvps')
+    .send(rsvp)
+    .end((err, res) => {
+      res.should.have.status(422);
+      res.body.should.be.a('object');
+      res.body.error.should.be.a('string');
+      res.body.should.have.property('error').eql('Status expects only "yes", "no" and "maybe"');
+      done();
+    });
+  });
+
+  it('it should create a new rsvp for a meetup', (done) => {
+    const rsvp = {
+      topic: 'lolsdddd',
+      status: 'yes',
+    };
+    chai.request(server)
+    .post('/api/v1/meetups/112/rsvps')
+    .send(rsvp)
+    .end((err, res) => {
+      res.should.have.status(201);
+      res.body.should.be.a('object');
+      res.body.data.should.be.a('array');
+      res.body.data[0].should.have.property('meetup');
+      res.body.data[0].should.have.property('topic');
+      res.body.data[0].should.have.property('status');
+      done();
+    });
+  });
+});
