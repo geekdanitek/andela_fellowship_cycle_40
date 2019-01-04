@@ -327,3 +327,14 @@ describe('/Create meetup rsvp', () => {
     });
   });
 });
+describe('/GET upcoming meetups', () => {
+  it('it should get upcoming all the meetups', (done) => {
+    chai.request(server)
+            .get('/api/v1/meetups/upcoming')
+            .end((err, res) => {
+                  res.should.have.status(200);
+                  expect(res.body.data).to.be.a('array');
+              done();
+          });
+  });
+});
