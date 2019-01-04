@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const meetupRoutes = require('./routes/meetupRt');
-
+const questionRoutes = require('./routes/questionRt');
 
 let port = process.env.PORT || (process.argv[2] || 5000);
 port = (typeof port === 'number') ? port : 5000;
@@ -18,6 +18,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use('/api/v1', questionRoutes);
 app.use('/api/v1', meetupRoutes);
 
 if (process.env.NODE_ENV === 'test') {
