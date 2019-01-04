@@ -22,7 +22,7 @@ exports.createMeetup = (req, res) => {
   if (errors.length > 0) {
     return res.status(422).json({
       status: 422,
-      error: errors.map(error => error).toString(),
+      error: errors.map(error => error).toString()
     });
   }
 
