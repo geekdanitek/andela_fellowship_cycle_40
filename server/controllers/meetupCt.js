@@ -33,7 +33,6 @@ exports.createMeetup = (req, res) => {
       error: errors.array().map(error => error.msg).toString(),
     });
   }
-
   const {
     topic, location, happeningOn, tags,
   } = req.body;
