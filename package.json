@@ -6,9 +6,7 @@
   "scripts": {
     "lint": "eslint ./controllers --fix",
     "test": "cd server && mocha --timeout 10000 --exit",
-    // "cover": "istanbul cover ./node_modules/mocha/bin/_mocha --reporter lcovonly -- -R spec",
     "start": "node app.js"
-    // "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls"
   },
   "repository": {
     "type": "git",
