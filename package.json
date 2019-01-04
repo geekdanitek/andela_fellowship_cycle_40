@@ -5,7 +5,8 @@
   "main": "server/app.js",
   "scripts": {
     "lint": "eslint ./controllers --fix",
-    "test": "cd server && mocha --timeout 10000 --exit",
+    "test": "cd server && nyc --reporter=html ---reporter=text --reporter=lcov mocha --timeout 10000 --exit",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "start": "nodemon app.js"
   },
   "repository": {
