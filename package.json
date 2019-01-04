@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint ./controllers --fix",
     "test": "cd server && mocha --timeout 10000 --exit",
-    "start": "node app.js"
+    "start": "nodemon app.js"
   },
   "repository": {
     "type": "git",
