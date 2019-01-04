@@ -5,6 +5,7 @@ const meetupController = require('../controllers/meetupCt');
 const router = express.Router();
 
 router.get('/meetups/:meetupId', meetupController.getMeetup);
+router.get('/meetups', meetupController.getMeetups);
 
 router.post(
   '/meetup',

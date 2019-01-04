@@ -48,7 +48,6 @@ exports.createMeetup = (req, res) => {
     }],
   });
 };
-
 exports.getMeetup = (req, res) => {
   const { meetupId } = req.params;
 
@@ -74,5 +73,20 @@ exports.getMeetup = (req, res) => {
   return res.status(200).json({
     status: 200,
     data: [meetup],
+  });
+};
+exports.getMeetups = (req, res) => {
+  const error = false;
+  if (error) {
+    return res.status(500).json({
+      status: 500,
+      error: 'Was not able to get meetups',
+    });
+  }
+
+  const meetups = meetupsMock;
+  return res.status(200).json({
+    status: 200,
+    data: meetups,
   });
 };
