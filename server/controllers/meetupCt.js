@@ -130,3 +130,19 @@ exports.rsvpForMeetup = (req, res) => {
     }],
   });
 };
+exports.getUpcomingMeetups = (req, res) => {
+  const error = false;
+  if (error) {
+    return res.status(500).json({
+      status: 500,
+      error: 'Was not able to get upcoming meetups',
+    });
+  }
+
+  const upcomingMeetups = meetupsMock.slice(4, 6);
+
+  return res.status(200).json({
+    status: 200,
+    data: upcomingMeetups,
+  });
+};
