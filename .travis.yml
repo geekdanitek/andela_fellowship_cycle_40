@@ -2,9 +2,7 @@
 node_js:
   - "node"
 before_script:
-  - cd ./server
-script:
+  - cd ./server 
   - npm install
-
-after_script:
+script:
   - npm test
