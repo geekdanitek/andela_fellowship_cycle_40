@@ -1,4 +1,5 @@
 const { validationResult } = require('express-validator/check');
+const meetupsMock = require('../mocks/meetupsmock.json');
 
 exports.createMeetup = (req, res) => {
   let errors = [];
@@ -45,5 +46,33 @@ exports.createMeetup = (req, res) => {
       happeningOn,
       tags,
     }],
+  });
+};
+
+exports.getMeetup = (req, res) => {
+  const { meetupId } = req.params;
+
+  const error = false;
+  if (error) {
+    return res.status(500).json({
+      status: 500,
+      error: 'Was not able to get meetup',
+    });
+  }
+
+  const meetupIndex = meetupsMock.findIndex(meetup => meetup.id == meetupId);
+
+  if (meetupIndex === -1) {
+    return res.status(200).json({
+      status: 200,
+      data: [],
+    });
+  }
+
+  const meetup = meetupsMock[meetupIndex];
+
+  return res.status(200).json({
+    status: 200,
+    data: [meetup],
   });
 };
