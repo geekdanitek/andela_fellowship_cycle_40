@@ -2,6 +2,6 @@ language: node_js
 node_js:
   - "node"
 before_script:
-  - server npm install
+  - npm install
 script:
-  - server npm test
+  - npm test
