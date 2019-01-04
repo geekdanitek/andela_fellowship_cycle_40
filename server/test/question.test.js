@@ -111,3 +111,64 @@ describe('/Create a question', () => {
 		});
 	});
 });
+describe('/Question Vote', () => {
+	it('it should not upvote a question if the question id is invalid', (done) => {
+		chai.request(server)
+		.patch('/api/v1/questions/245/upvote')
+		.end((err, res) => {
+			res.should.have.status(404);
+			res.body.should.be.a('object');
+			res.body.error.should.be.a('string');
+			res.body.should.have.property('error').eql('Question not found on the server');
+			done();
+		});
+	});
+
+	it('it should not downvote a question if the question id is invalid', (done) => {
+		chai.request(server)
+		.patch('/api/v1/questions/245/downvote')
+		.end((err, res) => {
+			res.should.have.status(404);
+			res.body.should.be.a('object');
+			res.body.error.should.be.a('string');
+			res.body.should.have.property('error').eql('Question not found on the server');
+			done();
+		});
+	});
+
+	it('it should upvote a question', (done) => {
+		chai.request(server)
+		.patch('/api/v1/questions/24/upvote')
+		.end((err, res) => {
+			res.should.have.status(200);
+			res.body.should.be.a('object');
+			res.body.data.should.be.a('array');
+			res.body.data[0].should.have.property('id');
+			res.body.data[0].should.have.property('createdOn');
+			res.body.data[0].should.have.property('createdBy');
+			res.body.data[0].should.have.property('meetup');
+			res.body.data[0].should.have.property('title');
+			res.body.data[0].should.have.property('body');
+			res.body.data[0].should.have.property('votes');
+			done();
+		});
+	});
+
+	it('it should downvote a question', (done) => {
+		chai.request(server)
+		.patch('/api/v1/questions/24/downvote')
+		.end((err, res) => {
+			res.should.have.status(200);
+			res.body.should.be.a('object');
+			res.body.data.should.be.a('array');
+			res.body.data[0].should.have.property('id');
+			res.body.data[0].should.have.property('createdOn');
+			res.body.data[0].should.have.property('createdBy');
+			res.body.data[0].should.have.property('meetup');
+			res.body.data[0].should.have.property('title');
+			res.body.data[0].should.have.property('body');
+			res.body.data[0].should.have.property('votes');
+			done();
+		});
+	});
+});

@@ -2,7 +2,6 @@ const express = require('express');
 const { body } = require('express-validator/check');
 const questionController = require('../controllers/questionCt');
 
-
 const router = express.Router();
 
 router.post(
@@ -18,5 +17,7 @@ router.post(
   questionController.createQuestion,
 );
 
+router.patch('/questions/:questionId/upvote', questionController.upvoteQuestion);
+router.patch('/questions/:questionId/downvote', questionController.downvoteQuestion);
 
 module.exports = router;
