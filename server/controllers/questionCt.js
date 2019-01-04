@@ -1,4 +1,5 @@
 const { validationResult } = require('express-validator/check');
+const questionsMock = require('../mocks/questionsmock.json');
 
 exports.createQuestion = (req, res) => {
   let errors = [];
@@ -37,5 +38,49 @@ exports.createQuestion = (req, res) => {
       title,
       body,
     }],
+  });
+};
+exports.upvoteQuestion = (req, res) => {
+  const { questionId } = req.params;
+
+  const questionIndex = questionsMock.findIndex(question => question.id == questionId);
+
+  if (questionIndex === -1) {
+    return res.status(404).json({
+      status: 404,
+      error: 'Question not found on the server',
+    });
+  }
+
+  const question = questionsMock[questionIndex];
+  question.votes += 1;
+
+  return res.status(200).json({
+    status: 200,
+    data: [question],
+  });
+};
+
+exports.downvoteQuestion = (req, res) => {
+  const { questionId } = req.params;
+
+  const questionIndex = questionsMock.findIndex(question => question.id == questionId);
+
+  if (questionIndex === -1) {
+    return res.status(404).json({
+      status: 404,
+      error: 'Question not found on the server',
+    });
+  }
+
+  const question = questionsMock[questionIndex];
+
+  if (question.votes !== 0) {
+      question.votes -= 1;
+  }
+
+  return res.status(200).json({
+    status: 200,
+    data: [question],
   });
 };
