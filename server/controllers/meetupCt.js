@@ -90,3 +90,43 @@ exports.getMeetups = (req, res) => {
     data: meetups,
   });
 };
+exports.rsvpForMeetup = (req, res) => {
+  let errors = [];
+
+  if (!req.body.topic) {
+    errors.push('Topic field is required');
+  }
+
+  if (!req.body.status) {
+    errors.push('Status field is required');
+  }
+
+  if (errors.length > 0) {
+    return res.status(422).json({
+      status: 422,
+      error: errors.map(error => error).toString(),
+    });
+  }
+
+  errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).json({
+      status: 422,
+      error: errors.array().map(error => error.msg).toString(),
+    });
+  }
+
+  const { meetupId } = req.params;
+
+  const { topic, status } = req.body;
+
+  return res.status(201).json({
+    status: 201,
+    data: [{
+      meetup: Number(meetupId),
+      topic,
+      status,
+    }],
+  });
+};
