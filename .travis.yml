@@ -2,6 +2,6 @@ language: node_js
 node_js:
   - "node"
 before_script:
-  - cd server npm install
+  - cd server/ npm install
 script:
-  - cd server npm test
+  - cd server/ npm test
