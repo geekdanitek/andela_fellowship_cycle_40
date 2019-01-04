@@ -11,6 +11,17 @@ const should = chai.should();
 
 chai.use(chaiHttp);
 
+describe('/GET meetups', () => {
+  it('it should get all the meetups', (done) => {
+    chai.request(server)
+            .get('/api/v1/meetups')
+            .end((err, res) => {
+                  res.should.have.status(200);
+                  expect(res.body.data).to.be.a('array');
+              done();
+          });
+  });
+});
 describe('/Create meetup', () => {
   it('it should not create a meetup without topic field', (done) => {
     const meetup = {
