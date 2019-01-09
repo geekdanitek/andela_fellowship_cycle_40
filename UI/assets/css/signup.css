@@ -14,7 +14,11 @@
 }
 
 .signup-title {
-	font-weight: 300;
+	font-size: 2rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #29b6f6;
+    margin: 10px 0 0;
 }
 
 .signup-title-description {
@@ -24,7 +28,7 @@
 .signup-card {
 	border: 1px solid rgba(0,0,0,.125);
 	width: 100%;
-	height: 487px;
+	height: 500px;
 	padding: 2px 20px;
 	border-radius: 10px;
 	position: relative;
@@ -90,6 +94,9 @@
 @media (max-width: 575.98px) { 
 	.signup-area {
 		width: 90%;
+	}
+	.signup-card {
+		height: auto;
 	}
 	.signup-input-section {
 		width: 100%;

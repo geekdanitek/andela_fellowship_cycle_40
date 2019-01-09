@@ -25,7 +25,48 @@ body {
 
 }
 
+/*Helper styles*/
+.mar-0 {
+	margin: 0px !important;
+}
 
+.mar-t-0 {
+	margin-top: 0px !important;
+}
+
+.mar-b-0 {
+	margin-bottom: 0px !important; 
+}
+
+.mar-l-0 {
+	margin-left: 0px !important;
+}
+
+.mar-r-0 {
+	margin-right: 0px !important;
+}
+
+.pad-0 {
+	padding: 0px !important;
+}
+
+.pad-t-0 {
+	padding-top: 0px !important;
+}
+
+.pad-b-0 {
+	padding-bottom: 0px !important; 
+}
+
+.pad-l-0 {
+	padding-left: 0px !important;
+}
+
+.pad-r-0 {
+	padding-right: 0px !important;
+}
+
+/*Helper styles ends*/
 
 
 .container {
@@ -38,7 +79,12 @@ body {
 	padding: 0 30px;
 }
 
-.nav-container {
+div.nav-area {
+	width: 600px;
+	margin: 0 auto;
+}
+
+div.nav-container {
 	position: relative;
 	float: none;
 	clear: both;
@@ -53,7 +99,10 @@ body {
     padding: 10px 40px;
     border: none;
     border-radius: 5px;
-    background-color: #fafafa;
+    background-color: #ffffff;
+    border: 1px solid #29b6f6;
+    font-size: 13px;
+
 }
 
 .nav-button:hover {
@@ -63,15 +112,21 @@ body {
 }
 nav.questionaire-nav {
 	width: 100%;
-	margin: 0;
+	margin: 0 auto;
 	padding: 0;
 	overflow: hidden;
 	background-color: #29b6f6;
+	border-bottom: 1px solid #81d4fa;
 }
 
 nav.questionaire-nav div.nav-left {
 	float: left;
 	padding-left: 20px
+}
+
+div.nav-left img {
+	width: 50px;
+	height: 50px;
 }
 
 nav.questionaire-nav div.nav-right {
@@ -105,18 +160,23 @@ nav.questionaire-nav a {
 
 
 .user-profile-area {
-
+	width: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
 }
 
 .user-profile-question-post {
 	width: 50%;
 	float: left;
-	padding-right: 51px;
+	padding-right: 3px;
 }
 
 .user-profile-question-comment {
 	width: 50%;
 	float: left;
+	padding-left: 3px;
 }
 
 .user-profile-card {
@@ -134,12 +194,14 @@ nav.questionaire-nav a {
     background-clip: border-box;
     transition-duration: 1s;
     margin: 20px 0;
+    text-align: center;
     background-color: #ffffff;
 }	
-
+.user-profile-card:hover {
+	box-shadow: 0 4px 8px 0 rgba(0,0,0,.2), 0 6px 20px 0 rgba(0,0,0,.19);
+}
 .user-profile-card >h1 {
-	margin: 0;
-	margin-top: 20px;
+	margin: 7px 0;
 	font-size: 44px;
 }
 .user-profile-card >span {
@@ -152,8 +214,13 @@ nav.questionaire-nav a {
 	margin-top: 30px;
 }
 
+.top-question-feed-area >a {
+	text-decoration: none;
+	color: inherit;
+}
+
 .top-question-feed-text {
-	margin: 5px 0;
+	margin: 20px 0;
     font-size: 13px;
 }
    
@@ -171,12 +238,24 @@ nav.questionaire-nav a {
     word-wrap: break-word;
     background-clip: border-box;
     transition-duration: 1s;
-    margin: 20px 0;
+    margin: 20px auto;
     background-color: #ffffff;
 }
 
+.top-question-feed-card:hover {
+	box-shadow: 0 4px 8px 0 rgba(0,0,0,.2), 0 6px 20px 0 rgba(0,0,0,.19);
+}
 .top-question-feed-card:first-child, .top-question-feed-card:last-child {
-	margin: 0;
+	margin: 0 auto;
+}
+
+.top-question-feed-card-header {
+	padding: .75rem 1.25rem;
+    margin-bottom: 0;
+    background-color: #29b6f6;
+    color: #ffffff;
+    border-bottom: 1px solid #ffffff;
+    text-align: center;
 }
 
 .top-question-feed-card-title {
@@ -191,6 +270,7 @@ nav.questionaire-nav a {
 .top-question-feed-body {
 	display: grid;
 	grid-template-columns: max-content 1fr;
+	padding: 0 20px;
 }
 
 .top-question-feed-button-area {
@@ -216,12 +296,13 @@ nav.questionaire-nav a {
 
 .top-question-feed-body-content {
 	width: 75%;
+	padding: 10px 0;
 	float: left;
 }
 
 .top-question-feed-comments {
-	font-size: 15px;
-	color: rgba(0,0,0,.54);
+	font-size: 12px;
+	color: rgba(0, 0, 0, 0.81);
 }
 
 
@@ -241,6 +322,10 @@ nav.questionaire-nav a {
 	min-width: 46px;
 	text-align: center;
 }
+.vote img {
+	width: 20px;
+	height: 20px;
+}
 .vote >span {
 	font-weight: 800;
 	color: rgba(0,0,0,.54);
@@ -250,10 +335,24 @@ nav.questionaire-nav a {
 	width: 100%;
     float: left;
     margin: 20px 0;
+    text-align: center;
 }
-.meetups-link >a {
-	color: #29b6f6;
+.meetups-link >a button {
+	transition-duration: 0.4s;
+	cursor: pointer;
+    padding: 10px 13px;
+    border: none;
+    color: #ffffff;
+    border-radius: 5px;
+    background-color: #29b6f6;
+    font-size: 13px;
+	outline: none;
 }
+
+.meetups-link >a button:hover {
+	box-shadow: 0 4px 8px 0 rgba(0,0,0,.2), 0 6px 20px 0 rgba(0,0,0,.19);
+}
+
 
 
 @media (max-width: 575.98px) { 
@@ -271,15 +370,25 @@ nav.questionaire-nav a {
   		padding: 0;
   		margin-bottom: 15px;
   	}
+  	.user-profile-area {
+  		width: 100%;
+  	}
 	.user-profile-question-post {
 	    width: 100%;
 	    float: none;
 	    padding-right: 0;
 	}
+	.meetups-link >a button { 
+		margin-bottom: 12px;
+	}
+	.container {
+		padding: 0 12px !important;
+	}
 
 	.user-profile-question-comment {
 		width: 100%;
 		float: none;
+		padding-left: 0;
 	}
 
 	.top-question-feed-card {
