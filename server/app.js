@@ -1,15 +1,17 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const meetupRoutes = require('./routes/meetupRt');
-const questionRoutes = require('./routes/questionRt');
+import express from 'express';
+import dotenv from 'dotenv';
+import bodyParser from 'body-parser';
+import meetupRoutes from './routes/meetupRoutes';
+import questionRoutes from './routes/questionRoutes';
 
-let port = process.env.PORT || (process.argv[2] || 5000);
-port = (typeof port === 'number') ? port : 5000;
+dotenv.config();
 
+const port = process.env.PORT || 2000;
 
 const app = express();
 
 app.use(bodyParser.json());
+
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -21,10 +23,10 @@ app.use((req, res, next) => {
 app.use('/api/v1', questionRoutes);
 app.use('/api/v1', meetupRoutes);
 
-if (process.env.NODE_ENV === 'test') {
-  port = 4000;
-}
+app.use((req, res)=> {
+	res.status(404).json({status: 404, error: 'resource not found on the server'});
+})
 
 app.listen(port);
 
-module.exports = app;
+export default app;
