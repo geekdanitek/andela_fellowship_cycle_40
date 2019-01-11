@@ -1,10 +1,10 @@
-const chai = require('chai');
+import chai from 'chai';
 
-const chaiHttp = require('chai-http');
+import chaiHttp from 'chai-http';
 
 process.env.NODE_ENV = 'test';
 
-const server = require('../app');
+import server from '../app';
 
 const { expect } = chai;
 const should = chai.should();
@@ -36,8 +36,9 @@ describe('/Create meetup', () => {
       .end((err, res) => {
         res.should.have.status(422);
         res.body.should.be.a('object');
-        res.body.error.should.be.a('string');
-        res.body.should.have.property('error').eql('Topic field is required');
+        res.body.error.should.be.a('array');
+        res.body.error[0].should.be.a('object');
+        res.body.error[0].topic.should.have.eql('topic field is required');
         done();
       });
   });
@@ -55,8 +56,9 @@ describe('/Create meetup', () => {
       .end((err, res) => {
         res.should.have.status(422);
         res.body.should.be.a('object');
-        res.body.error.should.be.a('string');
-        res.body.should.have.property('error').eql('Location field is required');
+        res.body.error.should.be.a('array');
+        res.body.error[0].should.be.a('object');
+        res.body.error[0].location.should.have.eql('location field is required');
         done();
       });
   });
@@ -74,8 +76,9 @@ describe('/Create meetup', () => {
       .end((err, res) => {
         res.should.have.status(422);
         res.body.should.be.a('object');
-        res.body.error.should.be.a('string');
-        res.body.should.have.property('error').eql('Happening On field is required');
+        res.body.error.should.be.a('array');
+        res.body.error[0].should.be.a('object');
+        res.body.error[0].happeningOn.should.have.eql('happeningOn field is required');
         done();
       });
   });
@@ -93,8 +96,9 @@ describe('/Create meetup', () => {
       .end((err, res) => {
         res.should.have.status(422);
         res.body.should.be.a('object');
-        res.body.error.should.be.a('string');
-        res.body.should.have.property('error').eql('Tags field is required');
+        res.body.error.should.be.a('array');
+        res.body.error[0].should.be.a('object');
+        res.body.error[0].tags.should.have.eql('tags field is required');
         done();
       });
   });
@@ -113,8 +117,9 @@ describe('/Create meetup', () => {
       .end((err, res) => {
         res.should.have.status(422);
         res.body.should.be.a('object');
-        res.body.error.should.be.a('string');
-        res.body.should.have.property('error').eql('Topic should be more than 5 characters');
+        res.body.error.should.be.a('array');
+        res.body.error[0].should.be.a('object');
+        res.body.error[0].topic.should.have.eql('Topic should be more than 5 characters');
         done();
       });
   });
@@ -133,8 +138,9 @@ describe('/Create meetup', () => {
       .end((err, res) => {
         res.should.have.status(422);
         res.body.should.be.a('object');
-        res.body.error.should.be.a('string');
-        res.body.should.have.property('error').eql('Location should be more than 5 characters');
+        res.body.error.should.be.a('array');
+        res.body.error[0].should.be.a('object');
+        res.body.error[0].location.should.have.eql('Location should be more than 5 characters');
         done();
       });
   });
@@ -153,8 +159,9 @@ describe('/Create meetup', () => {
       .end((err, res) => {
         res.should.have.status(422);
         res.body.should.be.a('object');
-        res.body.error.should.be.a('string');
-        res.body.should.have.property('error').eql('HappeningOn should be a valid date time');
+        res.body.error.should.be.a('array');
+        res.body.error[0].should.be.a('object');
+        res.body.error[0].happeningOn.should.have.eql('HappeningOn should be a valid date time');
         done();
       });
   });
@@ -173,8 +180,9 @@ describe('/Create meetup', () => {
       .end((err, res) => {
         res.should.have.status(422);
         res.body.should.be.a('object');
-        res.body.error.should.be.a('string');
-        res.body.should.have.property('error').eql('Tags should be an array');
+        res.body.error.should.be.a('array');
+        res.body.error[0].should.be.a('object');
+        res.body.error[0].tags.should.have.eql('Tags should be an array');
         done();
       });
   });
@@ -182,7 +190,7 @@ describe('/Create meetup', () => {
   it('it should create a new meetup', (done) => {
     const meetup = {
       topic: 'lolsdddd',
-      location: 'Lagos',
+      location: 'Lagosyy',
       happeningOn: '2018-12-01 15:00:00',
       tags: [],
     };
@@ -235,8 +243,9 @@ describe('/Create meetup rsvp', () => {
     .end((err, res) => {
       res.should.have.status(422);
       res.body.should.be.a('object');
-      res.body.error.should.be.a('string');
-      res.body.should.have.property('error').eql('Topic field is required');
+      res.body.error.should.be.a('array');
+      res.body.error[0].should.be.a('object');
+      res.body.error[0].topic.should.have.eql('topic field is required');
       done();
     });
   });
@@ -251,25 +260,9 @@ describe('/Create meetup rsvp', () => {
     .end((err, res) => {
       res.should.have.status(422);
       res.body.should.be.a('object');
-      res.body.error.should.be.a('string');
-      res.body.should.have.property('error').eql('Status field is required');
-      done();
-    });
-  });
-
-  it('it should not create a new rsvp if the meetup id is not a number', (done) => {
-    const rsvp = {
-      topic: 'rsvp me and them',
-      status: 'yes',
-    };
-    chai.request(server)
-    .post('/api/v1/meetups/abc/rsvps')
-    .send(rsvp)
-    .end((err, res) => {
-      res.should.have.status(422);
-      res.body.should.be.a('object');
-      res.body.error.should.be.a('string');
-      res.body.should.have.property('error').eql('Meetup key should be a number');
+      res.body.error.should.be.a('array');
+      res.body.error[0].should.be.a('object');
+      res.body.error[0].status.should.have.eql('status field is required');
       done();
     });
   });
@@ -285,8 +278,9 @@ describe('/Create meetup rsvp', () => {
     .end((err, res) => {
       res.should.have.status(422);
       res.body.should.be.a('object');
-      res.body.error.should.be.a('string');
-      res.body.should.have.property('error').eql('Topic should be more than 5 characters');
+      res.body.error.should.be.a('array');
+      res.body.error[0].should.be.a('object');
+      res.body.error[0].topic.should.have.eql('Topic should be more than 5 characters');
       done();
     });
   });
@@ -302,8 +296,9 @@ describe('/Create meetup rsvp', () => {
     .end((err, res) => {
       res.should.have.status(422);
       res.body.should.be.a('object');
-      res.body.error.should.be.a('string');
-      res.body.should.have.property('error').eql('Status expects only "yes", "no" and "maybe"');
+      res.body.error.should.be.a('array');
+      res.body.error[0].should.be.a('object');
+      res.body.error[0].status.should.have.eql('Status expects only "yes", "no" and "maybe"');
       done();
     });
   });
@@ -338,3 +333,17 @@ describe('/GET upcoming meetups', () => {
           });
   });
 });
+
+// describe('/* Any request not found on the server', () => {
+//   it('it should return a 404 error if request is not found on the server', (done) => {
+//     chai.request(server)
+//     .get('/api/v1/meetups/upcoaming')
+//     .end((err, res) => {
+//       res.should.have.status(404);
+//       res.body.should.be.a('object');
+//       res.body.error.should.be.a('string');
+//       res.body.error.should.have.property('error');
+//       done();
+//     });
+//   });
+// });
