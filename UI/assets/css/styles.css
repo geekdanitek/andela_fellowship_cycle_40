@@ -25,6 +25,48 @@ body {
 
 }
 
+/*Helper styles*/
+.mar-0 {
+	margin: 0px !important;
+}
+
+.mar-t-0 {
+	margin-top: 0px !important;
+}
+
+.mar-b-0 {
+	margin-bottom: 0px !important; 
+}
+
+.mar-l-0 {
+	margin-left: 0px !important;
+}
+
+.mar-r-0 {
+	margin-right: 0px !important;
+}
+
+.pad-0 {
+	padding: 0px;
+}
+
+.pad-t-0 {
+	padding-top: 0px !important;
+}
+
+.pad-b-0 {
+	padding-bottom: 0px !important; 
+}
+
+.pad-l-0 {
+	padding-left: 0px !important;
+}
+
+.pad-r-0 {
+	padding-right: 0px !important;
+}
+
+/*Helper styles ends*/
 
 
 
