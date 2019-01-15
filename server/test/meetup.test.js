@@ -11,6 +11,17 @@ const should = chai.should();
 
 chai.use(chaiHttp);
 
+describe('/GET meetups', () => {
+  it('it should get all the meetups', (done) => {
+    chai.request(server)
+            .get('/api/v1/meetups')
+            .end((err, res) => {
+                  res.should.have.status(200);
+                  expect(res.body.data).to.be.a('array');
+              done();
+          });
+  });
+});
 describe('/Create meetup', () => {
   it('it should not create a meetup without topic field', (done) => {
     const meetup = {
@@ -187,5 +198,143 @@ describe('/Create meetup', () => {
         res.body.data[0].should.have.property('tags');
         done();
       });
+  });
+});
+describe('/GET/:meetupId Meetup', () => {
+  it('it should GET a meet by the given id', (done) => {
+    const meetup = {
+            id: 112,
+            title: 'React Submit 2018',
+            location: 'The Civic Center, Lagos.',
+            happeningOn: '2018-30-12 08:00:00',
+            tags: [],
+          };
+            chai.request(server)
+            .get(`/api/v1/meetups/${meetup.id}`)
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('object');
+              res.body.data.should.be.a('array');
+              res.body.data[0].should.have.property('id').eql(meetup.id);
+              res.body.data[0].should.have.property('title');
+              res.body.data[0].should.have.property('location');
+              res.body.data[0].should.have.property('happeningOn');
+              res.body.data[0].should.have.property('tags');
+              done();
+            });
+  });
+});
+describe('/Create meetup rsvp', () => {
+  it('it should not create a new rsvp without the topic field', (done) => {
+    const rsvp = {
+      status: 'yes',
+    };
+    chai.request(server)
+    .post('/api/v1/meetups/112/rsvps')
+    .send(rsvp)
+    .end((err, res) => {
+      res.should.have.status(422);
+      res.body.should.be.a('object');
+      res.body.error.should.be.a('string');
+      res.body.should.have.property('error').eql('Topic field is required');
+      done();
+    });
+  });
+
+  it('it should not create a new rsvp without the status field', (done) => {
+    const rsvp = {
+      topic: 'rsvp me and them',
+    };
+    chai.request(server)
+    .post('/api/v1/meetups/112/rsvps')
+    .send(rsvp)
+    .end((err, res) => {
+      res.should.have.status(422);
+      res.body.should.be.a('object');
+      res.body.error.should.be.a('string');
+      res.body.should.have.property('error').eql('Status field is required');
+      done();
+    });
+  });
+
+  it('it should not create a new rsvp if the meetup id is not a number', (done) => {
+    const rsvp = {
+      topic: 'rsvp me and them',
+      status: 'yes',
+    };
+    chai.request(server)
+    .post('/api/v1/meetups/abc/rsvps')
+    .send(rsvp)
+    .end((err, res) => {
+      res.should.have.status(422);
+      res.body.should.be.a('object');
+      res.body.error.should.be.a('string');
+      res.body.should.have.property('error').eql('Meetup key should be a number');
+      done();
+    });
+  });
+
+  it('it should not create a new rsvp if topic characters is less than 5', (done) => {
+    const rsvp = {
+      topic: 'rsv',
+      status: 'yes',
+    };
+    chai.request(server)
+    .post('/api/v1/meetups/112/rsvps')
+    .send(rsvp)
+    .end((err, res) => {
+      res.should.have.status(422);
+      res.body.should.be.a('object');
+      res.body.error.should.be.a('string');
+      res.body.should.have.property('error').eql('Topic should be more than 5 characters');
+      done();
+    });
+  });
+
+  it('it should not create a new rsvp if status value is not equal to YES NO or MAYBE', (done) => {
+    const rsvp = {
+      topic: 'rsvp stuff',
+      status: 'postpone',
+    };
+    chai.request(server)
+    .post('/api/v1/meetups/112/rsvps')
+    .send(rsvp)
+    .end((err, res) => {
+      res.should.have.status(422);
+      res.body.should.be.a('object');
+      res.body.error.should.be.a('string');
+      res.body.should.have.property('error').eql('Status expects only "yes", "no" and "maybe"');
+      done();
+    });
+  });
+
+  it('it should create a new rsvp for a meetup', (done) => {
+    const rsvp = {
+      topic: 'lolsdddd',
+      status: 'yes',
+    };
+    chai.request(server)
+    .post('/api/v1/meetups/112/rsvps')
+    .send(rsvp)
+    .end((err, res) => {
+      res.should.have.status(201);
+      res.body.should.be.a('object');
+      res.body.data.should.be.a('array');
+      res.body.data[0].should.have.property('meetup');
+      res.body.data[0].should.have.property('topic');
+      res.body.data[0].should.have.property('status');
+      done();
+    });
+  });
+});
+describe('/GET upcoming meetups', () => {
+  it('it should get upcoming all the meetups', (done) => {
+    chai.request(server)
+            .get('/api/v1/meetups/upcoming')
+            .end((err, res) => {
+                  res.should.have.status(200);
+                  expect(res.body.data).to.be.a('array');
+              done();
+          });
   });
 });
