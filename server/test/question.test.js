@@ -1,10 +1,10 @@
-const chai = require('chai');
+import chai from 'chai';
 
-const chaiHttp = require('chai-http');
+import chaiHttp from 'chai-http';
 
 process.env.NODE_ENV = 'test';
 
-const server = require('../app');
+import server from '../app';
 
 const { expect } = chai;
 const  should = chai.should();
@@ -22,8 +22,9 @@ describe('/Create a question', () => {
 		.end((err, res) => {
 			res.should.have.status(422);
 			res.body.should.be.a('object');
-			res.body.error.should.be.a('string');
-			res.body.should.have.property('error').eql('Title field is required');
+			res.body.error.should.be.a('array');
+			res.body.error[0].should.be.a('object');
+      		res.body.error[0].title.should.have.eql('title field is required');
 			done();
 		});
 	});
@@ -38,8 +39,9 @@ describe('/Create a question', () => {
 		.end((err, res) => {
 			res.should.have.status(422);
 			res.body.should.be.a('object');
-			res.body.error.should.be.a('string');
-			res.body.should.have.property('error').eql('Body field is required');
+			res.body.error.should.be.a('array');
+			res.body.error[0].should.be.a('object');
+      		res.body.error[0].body.should.have.eql('body field is required');
 			done();
 		});
 	});
@@ -55,8 +57,9 @@ describe('/Create a question', () => {
 		.end((err, res) => {
 			res.should.have.status(422);
 			res.body.should.be.a('object');
-			res.body.error.should.be.a('string');
-			res.body.should.have.property('error').eql('Title should be more than 5 characters');
+			res.body.error.should.be.a('array');
+			res.body.error[0].should.be.a('object');
+      		res.body.error[0].title.should.have.eql('Title should be more than 5 characters');
 			done();
 		});
 	});
@@ -72,24 +75,9 @@ describe('/Create a question', () => {
 		.end((err, res) => {
 			res.should.have.status(422);
 			res.body.should.be.a('object');
-			res.body.error.should.be.a('string');
-			res.body.should.have.property('error').eql('Body should be more than 5 characters');
-			done();
-		});
-	});
-
-	it('it should not create a new question without body field', (done) => {
-		const question = {
-			title: 'The lorum',
-		};
-		chai.request(server)
-		.post('/api/v1/questions')
-		.send(question)
-		.end((err, res) => {
-			res.should.have.status(422);
-			res.body.should.be.a('object');
-			res.body.error.should.be.a('string');
-			res.body.should.have.property('error').eql('Body field is required');
+			res.body.error.should.be.a('array');
+			res.body.error[0].should.be.a('object');
+      		res.body.error[0].body.should.have.eql('Body should be more than 5 characters');
 			done();
 		});
 	});
@@ -119,7 +107,7 @@ describe('/Question Vote', () => {
 			res.should.have.status(404);
 			res.body.should.be.a('object');
 			res.body.error.should.be.a('string');
-			res.body.should.have.property('error').eql('Question not found on the server');
+			res.body.should.have.property('error').eql('Question not found');
 			done();
 		});
 	});
@@ -131,7 +119,7 @@ describe('/Question Vote', () => {
 			res.should.have.status(404);
 			res.body.should.be.a('object');
 			res.body.error.should.be.a('string');
-			res.body.should.have.property('error').eql('Question not found on the server');
+			res.body.should.have.property('error').eql('Question not found');
 			done();
 		});
 	});

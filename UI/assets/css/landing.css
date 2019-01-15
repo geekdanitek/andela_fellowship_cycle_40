@@ -9,10 +9,6 @@
     background-repeat: no-repeat;
     background-position: center center;
 	opacity: 1;
-	/*position: absolute;
-	top: 0;
-	left: 0;*/
-	/*background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(41, 182, 248, 0.4)), url('../images/landbg.jpg'), url('../images/landbg.jpg');*/
 	background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url('../images/landbg.jpg'), url('../images/landbg.jpg');
 }
 
@@ -63,7 +59,7 @@
 }
 
 .landing-how-it-works {
-	margin: 20px 0;
+	margin: 50px 0;
 	height: 200px;
 }
 
@@ -121,6 +117,9 @@
 	box-shadow: 0 4px 8px 0 rgba(0,0,0,.2), 0 6px 20px 0 rgba(0,0,0,.19);
 }
 
+.questionaire-footer {
+	bottom: 0;
+}
 
 @media (max-width: 575.98px) { 
 	.landing-content-area {
