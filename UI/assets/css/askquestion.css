@@ -2,11 +2,8 @@
 
 }
 
-.meetup-text {
-	color: rgba(0,0,0,.54);
-}
-
 .meetup-title {
+	text-align: center;
 	font-size: 25px;
 }
 
