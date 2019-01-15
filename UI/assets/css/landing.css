@@ -120,6 +120,7 @@
 .questionaire-footer {
 	bottom: 0;
 }
+
 @media (max-width: 575.98px) { 
 	.landing-content-area {
 		padding: 100px 0 0;
