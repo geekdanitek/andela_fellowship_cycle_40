@@ -5,14 +5,15 @@
   "main": "server/app.js",
   "scripts": {
     "lint": "cd server && eslint ./controllers --fix",
-    "test": "cd server && nyc --reporter=html ---reporter=text --reporter=lcov mocha --require @babel/register --timeout 10000 --exit",
+    "test": "cd server && set NODE_ENV=test && npm run droptables && npm run migrate && nyc --reporter=html ---reporter=text --reporter=lcov mocha --require @babel/register --timeout 10000 --exit",
     "dev-test": "npm run build && npm test",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "start": "npm run build && node ./build/app.js",
-    "dev": "nodemon server/app.js --exec babel-node",
+    "dev": "set NODE_ENV=development && nodemon server/app.js --exec babel-node",
     "build-server": "babel -d ./build ./server -s",
     "build": "npm run build-server",
-    "migrate": "cd server && babel-node models/migration.js"
+    "migrate": "cd server && babel-node models/migration.js",
+    "droptables": "cd server && babel-node models/dropTables.js"
   },
   "repository": {
     "type": "git",
@@ -44,10 +45,13 @@
     "nyc": "^13.1.0"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "express-validator": "^5.3.1",
+    "idempotent-babel-polyfill": "^7.0.0",
     "jsonwebtoken": "^8.4.0",
     "pg": "^7.8.0"
   }

@@ -1,20 +1,33 @@
 import meetupsMock from '../mocks/meetupsmock';
+import database from '../models/databaseConnection.js';
 
 class MeetupController {
-  static createMeetup(req, res) {
-    const {
-      topic, location, happeningOn, tags,
-    } = req.body;
-    return res.status(201).json({
-      status: 201,
-      data: [{
-        id: 112,
-        topic,
-        location,
-        happeningOn,
-        tags,
-      }],
-    });
+  static async createMeetup(req, res) {
+      try {
+        const { topic, location, happeningOn, tags } = req.body;
+
+        const query = `
+                      INSERT INTO meetups (topic,location,happeningOn,tags) 
+                      VALUES ('${topic}', '${location}', '${happeningOn}', '{"${tags}"}')`;
+
+        const response = await database.query(query);
+        if(response){
+           res.status(201).json({
+            status: 201,
+            data: [{
+              topic,
+              location,
+              happeningOn,
+              tags
+            }],
+          });
+        }
+
+    } catch (error) {
+      res.json({
+        error
+      });
+    }
   }
 
   static getMeetup(req, res) {
@@ -87,8 +100,7 @@ class MeetupController {
     }
 
     const upcomingMeetups = meetupsMock.slice(4, 6);
-    console.log(upcomingMeetups, '>>>>>>>>>>>>>>>>>>');
-    console.log(meetupsMock, 'meetupdssssssssssssssssssssssss');
+
 
     return res.status(200).json({
       status: 200,
