@@ -71,7 +71,6 @@ const createTables  = async () => {
 	        INSERT INTO meetups (topic,location,happeningOn,tags) 
             VALUES ('This is a topic to test', 'Ikeja, Lagos Test', '2018-12-01 15:00:00', '{""}');
 
-
 		`;
 
 		const response = await database.query(query);

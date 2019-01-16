@@ -6,7 +6,6 @@ class MeetupController {
   static async createMeetup(req, res) {
       try {
         const { topic, location, happeningOn, tags } = req.body;
-
         const query = `
                       INSERT INTO meetups (topic,location,happeningOn,tags) 
                       VALUES ('${topic}', '${location}', '${happeningOn}', '{"${tags}"}')`;
