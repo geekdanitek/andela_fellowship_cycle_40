@@ -67,13 +67,16 @@ const createTables  = async () => {
 
 	        INSERT INTO users (firstname, lastname, othername, email, password, phoneNumber,username, isAdmin) 
 	        VALUES ('Daniel', 'Adedeji', 'Ayokunle', 'adenew1234@gmail.com', '${adminPassword}', '08060917025', 'geek', TRUE);
+
+	        INSERT INTO meetups (topic,location,happeningOn,tags) 
+            VALUES ('This is a topic to test', 'Ikeja, Lagos Test', '2018-12-01 15:00:00', '{""}');
+
 		`;
 
 		const response = await database.query(query);
 		return response;
 		await database.end();
 	} catch (error) {
-		
 		return error;
 	}
 	

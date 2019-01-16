@@ -3,6 +3,7 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 
 import server from '../app';
+import migration from '../models/migration.js';
 
 const { expect } = chai;
 const should = chai.should();
@@ -14,7 +15,7 @@ describe('/GET meetups', () => {
     chai.request(server)
             .get('/api/v1/meetups')
             .end((err, res) => {
-                  res.should.have.status(200);
+                  res.should.have.status(201);
                   expect(res.body.data).to.be.a('array');
               done();
           });
@@ -207,7 +208,8 @@ describe('/Create meetup', () => {
   });
 });
 describe('/GET/:meetupId Meetup', () => {
-  it('it should GET a meet by the given id', (done) => {
+
+  it('it should not GET a meetup if the given id is not found', (done) => {
     const meetup = {
             id: 112,
             title: 'React Submit 2018',
@@ -218,13 +220,31 @@ describe('/GET/:meetupId Meetup', () => {
             chai.request(server)
             .get(`/api/v1/meetups/${meetup.id}`)
             .end((err, res) => {
-              res.should.have.status(200);
+              res.should.have.status(404);
+              res.body.should.be.a('object');
+              res.body.error.should.be.a('string').eql('Meetup not found');   
+              done();
+            });
+  });
+
+  it('it should GET a meet by the given id', (done) => {
+    const meetup = {
+            id: 1,
+            title: 'React Submit 2018',
+            location: 'The Civic Center, Lagos.',
+            happeningOn: '2018-30-12 08:00:00',
+            tags: [],
+          };
+            chai.request(server)
+            .get(`/api/v1/meetups/${meetup.id}`)
+            .end((err, res) => {
+              res.should.have.status(201);
               res.body.should.be.a('object');
               res.body.data.should.be.a('array');
               res.body.data[0].should.have.property('id').eql(meetup.id);
-              res.body.data[0].should.have.property('title');
+              res.body.data[0].should.have.property('topic');
               res.body.data[0].should.have.property('location');
-              res.body.data[0].should.have.property('happeningOn');
+              res.body.data[0].should.have.property('happeningon');
               res.body.data[0].should.have.property('tags');
               done();
             });
