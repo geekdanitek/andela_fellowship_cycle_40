@@ -1,7 +1,9 @@
 import database from './databaseConnection';
+import bcrypt from 'bcryptjs';
+
+const adminPassword = bcrypt.hashSync('ade123', 8);
 
 const createTables  = async () => {
-	console.log('I am creating tables');
 	try {
 		const query = `
 			CREATE TABLE IF NOT EXISTS users(
@@ -35,13 +37,11 @@ const createTables  = async () => {
 	        FOREIGN KEY (createdBy) REFERENCES users (id) ON DELETE CASCADE,
 	        FOREIGN KEY (meetupId) REFERENCES meetups (id) ON DELETE CASCADE);
 
-	        CREATE TYPE response_set AS ENUM('yes', 'no', 'maybe');
-
 	        CREATE TABLE IF NOT EXISTS rsvps(
 	        id SERIAL,
 	        meetupId INT NOT NULL,
 	        userId INT NOT NULL,
-	        response response_set,
+	        response TEXT,
 	        PRIMARY KEY(meetupId, userId),
 	        FOREIGN KEY (userId) REFERENCES meetups (id) ON DELETE CASCADE,
 	        FOREIGN KEY (userId) REFERENCES users (id) ON DELETE CASCADE);
@@ -64,13 +64,21 @@ const createTables  = async () => {
 	        vote VARCHAR(8) NOT NULL,
 	        FOREIGN KEY (userId) REFERENCES users (id) ON DELETE CASCADE,
 	        FOREIGN KEY (questionId) REFERENCES questions (id) ON DELETE CASCADE);
+
+	        INSERT INTO users (firstname, lastname, othername, email, password, phoneNumber,username, isAdmin) 
+	        VALUES ('Daniel', 'Adedeji', 'Ayokunle', 'adenew1234@gmail.com', '${adminPassword}', '08060917025', 'geek', TRUE);
+
+	        INSERT INTO meetups (topic,location,happeningOn,tags) 
+            VALUES ('This is a topic to test', 'Ikeja, Lagos Test', '2018-12-01 15:00:00', '{""}');
+
+
 		`;
 
 		const response = await database.query(query);
+		return response;
 		await database.end();
-		console.log(response);
 	} catch (error) {
-		console.log(error);
+		return error;
 	}
 	
 }
