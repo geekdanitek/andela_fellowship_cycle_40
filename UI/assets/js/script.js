@@ -20,4 +20,4 @@ window.addEventListener('click', function() {
 closeModal.addEventListener('click', function() {
 	deleteMeetupModal.classList.toggle("show-modal");
 });
-/* Delete Modal Script Ends*/
+/* Delete Modal Script Ends.*/

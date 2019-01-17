@@ -24,7 +24,6 @@
     background-color: #ffffff;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,.2), 0 6px 20px 0 rgba(0,0,0,0.11);
 }
-
 .meetups-card:first-child, .meetups-card:last-child {
 	margin: 0;
 }

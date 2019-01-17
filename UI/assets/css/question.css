@@ -28,7 +28,6 @@
     margin: 20px 0;
     background-color: #ffffff;
 }
-
 .question-card:first-child, .question-card:last-child {
 	margin: 0;
 }
