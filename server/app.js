@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import meetupRoutes from './routes/meetupRoutes';
 import questionRoutes from './routes/questionRoutes';
+import userRoutes from './routes/userRoutes';
 
 dotenv.config();
 
@@ -22,8 +23,17 @@ app.use((req, res, next) => {
 
 app.use('/api/v1', questionRoutes);
 app.use('/api/v1', meetupRoutes);
+app.use('/api/v1', userRoutes);
 
-app.use((req, res)=> {
+app.use('/:invalid', (req, res) => {
+	res.status(404).json({status: 404, error: 'invalid resource'});
+});
+
+app.use('/', (req, res) => {
+	res.status(200).json({status: 200, message: 'Welcome to Questioner app resource. Check the API docs to make request'});
+});
+
+app.use('*', (req, res)=> {
 	res.status(404).json({status: 404, error: 'resource not found on the server'});
 })
 

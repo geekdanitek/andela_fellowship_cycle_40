@@ -2,7 +2,7 @@ import database from './databaseConnection';
 
 const dropTables = async () => {
 	try {
-		const query = `
+		const query = `	
 						DROP TABLE IF EXISTS users CASCADE;
 						DROP TABLE IF EXISTS meetups CASCADE;
 						DROP TABLE IF EXISTS questions CASCADE;
@@ -11,11 +11,11 @@ const dropTables = async () => {
 						DROP TABLE IF EXISTS votes CASCADE;
 						`;
 		const response = await database.query(query);
-		await database.end();
-		return response;
+		// await database.end();
+		//console.log(response);
 
 	} catch (errors) {
-		return errors;
+		//console.log(errors);
 	}
 }
 

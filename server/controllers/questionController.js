@@ -1,63 +1,89 @@
 import questionsMock from '../mocks/questionsmock';
+import database from '../models/databaseConnection';
+import Helpers from '../helpers/helpers';
 
 class QuestionController {
-  static createQuestion(req, res) {
-    const { title, body } = req.body;
+  static async createQuestion(req, res) {
 
-    return res.status(201).json({
-      status: 201,
-      data: [{
-        user: 231,
-        meetup: 112,
-        title,
-        body,
-      }],
-    });
+    try {
+
+      const { title, body, meetupId } = req.body;
+      const query = `INSERT INTO questions (createdBy, meetupId, title, body)
+                      VALUES('${req.decoded.id}', '${meetupId}', '${title}', '${body}')`;
+
+      const response = await database.query(query);
+
+      const data =  [{user: req.decoded.id, meetup: Number(meetupId), title, body}];
+
+      return Helpers.successResponse(res, 201, data);
+
+    } catch (error){
+        return Helpers.errorResponse(res, 500, error.message);
+    }
+
   }
 
-  static upvoteQuestion(req, res) {
-    const { questionId } = req.params;
+  static async upvoteQuestion(req, res) {
+    try {
 
-    const questionIndex = questionsMock.findIndex(question => question.id == questionId);
+       const { questionId } = req.params;
+       const query = `UPDATE questions SET votes = votes + 1 WHERE id='${questionId}' RETURNING *`;
 
-    if (questionIndex === -1) {
-      return res.status(404).json({
-        status: 404,
-        error: 'Question not found',
-      });
-    }
+       const response = await database.query(query);
+       if(response){
+          const { meetup, title, body, votes} = response.rows[0];
+          const data = [{ meetup, title, body, votes }];
 
-    const question = questionsMock[questionIndex];
-    question.votes += 1;
+          return Helpers.successResponse(res, 201, data);
+       } 
+      
 
-    return res.status(200).json({
-      status: 200,
-      data: [question],
-    });
+    } catch (error) {
+          return Helpers.errorResponse(res, 500, error.message);
+    } 
   }
 
-  static downvoteQuestion(req, res) {
-    const { questionId } = req.params;
+  static async downvoteQuestion(req, res) {
+       try {
 
-    const questionIndex = questionsMock.findIndex(question => question.id == questionId);
+       const { questionId } = req.params;
+       const query = `UPDATE questions SET votes = votes - 1 WHERE id='${questionId}' RETURNING *`;
 
-    if (questionIndex === -1) {
-      return res.status(404).json({
-        status: 404,
-        error: 'Question not found',
-      });
+       const response = await database.query(query);
+       if(response){
+          const { meetup, title, body, votes} = response.rows[0];
+          const data = [{ meetup, title, body, votes }];
+
+          return Helpers.successResponse(res, 201, data);
+       } 
+      
+
+      } catch (error) {
+            return Helpers.errorResponse(res, 500, error.message);
+      }
+  }
+
+  static async commentQuestion(req, res){
+    try {
+      const { questionId, comment } = req.body;
+
+      const query = `INSERT INTO comments (questionId, comment, userId)
+                     VALUES ('${Number(questionId)}', '${comment}', '${req.decoded.id}')`;
+
+      const response = await database.query(query);
+  
+      const data = [{
+                      question: Number(questionId),
+                      title: req.question.title,
+                      body: req.question.body,
+                      comment: comment
+                  }];
+
+      return Helpers.successResponse(res, 201, data);
+
+    } catch (error) {
+      return Helpers.errorResponse(res, 500, error.message);
     }
-
-    const question = questionsMock[questionIndex];
-
-    if (question.votes !== 0) {
-      question.votes -= 1;
-    }
-
-    return res.status(200).json({
-      status: 200,
-      data: [question],
-    });
   }
 }
 export default QuestionController;

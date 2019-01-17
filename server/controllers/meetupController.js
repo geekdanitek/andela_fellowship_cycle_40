@@ -1,4 +1,3 @@
-import meetupsMock from '../mocks/meetupsmock';
 import Helpers from '../helpers/helpers';
 import database from '../models/databaseConnection.js';
 
@@ -77,37 +76,96 @@ class MeetupController {
     }
   }
 
-  static rsvpForMeetup(req, res) {
-    const { meetupId } = req.params;
+  static async deleteMeetup(req, res) {
+    try {
+       const { meetupId } = req.params;
 
-    const { topic, status } = req.body;
+       const query = ` DELETE FROM meetups WHERE id='${meetupId}'`;
 
-    return res.status(201).json({
-      status: 201,
-      data: [{
-        meetup: Number(meetupId),
-        topic,
-        status,
-      }],
-    });
+       const response = await database.query(query);
+
+       if(response) {
+          return Helpers.successResponse(res, 201, [{meetup: 'Meetup successfully deleted'}]);
+       }
+
+    } catch (error) {
+        return Helpers.errorResponse(res, 500, error.message);
+    }
   }
 
-  static getUpcomingMeetups(req, res) {
-    const error = false;
-    if (error) {
-      return res.status(500).json({
-        status: 500,
-        error: 'Was not able to get upcoming meetups',
-      });
+  static async rsvpForMeetup(req, res) {
+    try {
+
+      const { meetupId } = req.params;
+
+      const { response } = req.body;
+
+      const query =  `INSERT INTO rsvps (meetupId, userId, response)
+                      VALUES ('${Number(meetupId)}', '${req.decoded.id}', '${response}')
+                      `;
+
+      const responseDb = await database.query(query);
+
+      if(responseDb) {
+        return Helpers.successResponse(res, 201, [{ meetup: Number(meetupId), user: req.decoded.id, response }]);
+      }
+
+    } catch (error) {
+      return Helpers.errorResponse(res, 500, error.message);
+    }
+  }
+
+  static async addTagsToMeetup(req, res) {
+    try {
+
+      const { meetupId } = req.params;
+      const { tags } = req.body;
+
+      const query = `UPDATE meetups SET tags = array_cat(tags, '{${tags}}') WHERE id='${meetupId}' RETURNING *`;
+
+      const response = await database.query(query);
+      
+      if(response) {
+        const { id, topic, tags } = response.rows[0];
+        return Helpers.successResponse(res, 201, [{meetup: id, topic, tags}]);
+      }
+    } catch (error) {
+      return Helpers.errorResponse(res, 500, error.message);
+    }
+  }
+
+  static async getUpcomingMeetups(req, res) {
+    
+    try {
+      const query = `SELECT * FROM meetups WHERE happeningOn >= CURRENT_TIMESTAMP ORDER BY createdon DESC`;
+      
+      const response = await database.query(query);
+      
+      if(response.rows.length < 1) {
+        return Helpers.errorResponse(res, 404, 'No upcoming meetups currently');
+      }
+      
+      const meetups = response.rows;
+
+      const newMeetups = [];
+      meetups.map(meetup => {
+        newMeetups.push({
+          id: meetup.id,
+          topic: meetup.topic,
+          location: meetup.location,
+          happeningon: Helpers.dateFormatter(String(meetup.happeningon)),
+          image: meetup.image,
+          tags: meetup.tags,
+          createdon: meetup.createdon
+
+        })
+      })
+      Helpers.successResponse(res, 201, newMeetups);
+
+    } catch (error) {
+       Helpers.errorResponse(res, 500, error.message);
     }
 
-    const upcomingMeetups = meetupsMock.slice(4, 6);
-
-
-    return res.status(200).json({
-      status: 200,
-      data: upcomingMeetups,
-    });
   }
 }
 

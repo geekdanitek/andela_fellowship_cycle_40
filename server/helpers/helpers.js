@@ -15,7 +15,7 @@ class Helpers {
         errors.notAString = true;
       }
 
-      if (value.length < 1) {
+      if (value.replace(/ /g, '').length < 1) {
         errors.emptyString = true;
       }
 
@@ -74,7 +74,74 @@ class Helpers {
         delete formatted[0];
       }
       return formatted.join('');
-    }
-}
+  }
 
+   static isAlphabetical(value) {
+    const alphabetical = /^[a-zA-Z]*$/;
+    if(alphabetical.test(value)) {
+      return true;
+    }
+    return false;
+  }
+
+  static isAlphaNumberical(value) {
+    const alphaNumberical = /^[a-zA-Z0-9]+$/;
+    if(alphaNumberical.test(value)) {
+      return true;
+    }
+    return false;
+  }
+
+  static isEmail(value) {
+    const email = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if(email.test(value)) {
+      return true;
+    }
+    return false;
+  }
+  static isNumber(value){
+    const number = /^\d+$/;
+    if(number.test(value)){
+      return true;
+    }
+    return false;
+  }
+  static isLength(value, limit) {
+    if(value.replace(/ /g, '').length < limit) {
+        return true;
+    }
+    return false;
+  }
+  static stringArray(dataArray) {
+  
+    if(!Array.isArray(dataArray)) {
+      return false;
+    }
+    const errorState = {notAString: false, emptyString: false};
+    dataArray.map(value => {
+      if(typeof value !== 'string') {
+        errorState.notAString = true;
+      }
+      if(String(value).trim().length < 1) {
+        errorState.emptyString = true;
+      }
+    });
+
+    if (errorState.notAString) {
+      return false;
+    }
+    if (errorState.emptyString) {
+      return false;
+    }
+    return true;
+  }
+
+  static isDateTime(value) {
+    const dateTime = /^\d\d\d\d-(0?[1-9]|1[0-2])-(0?[1-9]|[12][0-9]|3[01]) (00|[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9]):([0-9]|[0-5][0-9])$/;
+    if(!dateTime.test(value)) {
+      return false;
+    }
+    return true;
+  }
+}
 export default Helpers;
