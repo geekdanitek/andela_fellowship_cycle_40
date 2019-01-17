@@ -77,19 +77,28 @@ class MeetupController {
     }
   }
 
-  static rsvpForMeetup(req, res) {
-    const { meetupId } = req.params;
+  static async rsvpForMeetup(req, res) {
+    try {
 
-    const { topic, status } = req.body;
+      const { meetupId } = req.params;
 
-    return res.status(201).json({
-      status: 201,
-      data: [{
-        meetup: Number(meetupId),
-        topic,
-        status,
-      }],
-    });
+      const { response } = req.body;
+
+
+      const query =  `INSERT INTO rsvps (meetupId, userId, response)
+                      VALUES ('${Number(meetupId)}', 2, '${response}')
+                      `;
+
+      const responseDb = await database.query(query);
+
+      if(responseDb) {
+        Helpers.successResponse(res, 201, [{ meetup: Number(meetupId), user: 2, response }]);
+      }
+
+
+    } catch (error) {
+      Helpers.errorResponse(res, 500, error.message);
+    }
   }
 
   static getUpcomingMeetups(req, res) {

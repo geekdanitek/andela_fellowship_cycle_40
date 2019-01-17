@@ -22,169 +22,169 @@ describe('/GET meetups', () => {
   });
 });
 describe('/Create meetup', () => {
-  // it('it should not create a meetup without topic field', (done) => {
-  //   const meetup = {
-  //     location: 'Lagos',
-  //     happeningOn: '2018-12-01 15:00:00',
-  //     tags: [],
-  //   };
+  it('it should not create a meetup without topic field', (done) => {
+    const meetup = {
+      location: 'Lagos',
+      happeningOn: '2018-12-01 15:00:00',
+      tags: [],
+    };
 
-  //   chai.request(server)
-  //     .post('/api/v1/meetup')
-  //     .send(meetup)
-  //     .end((err, res) => {
-  //       res.should.have.status(422);
-  //       res.body.should.be.a('object');
-  //       res.body.error.should.be.a('array');
-  //       res.body.error[0].should.be.a('object');
-  //       res.body.error[0].topic.should.have.eql('topic field is required');
-  //       done();
-  //     });
-  // });
+    chai.request(server)
+      .post('/api/v1/meetup')
+      .send(meetup)
+      .end((err, res) => {
+        res.should.have.status(422);
+        res.body.should.be.a('object');
+        res.body.error.should.be.a('array');
+        res.body.error[0].should.be.a('object');
+        res.body.error[0].topic.should.have.eql('topic field is required');
+        done();
+      });
+  });
 
-  // it('it should not create a meetup without location field', (done) => {
-  //   const meetup = {
-  //     topic: 'The Tech group',
-  //     happeningOn: '2018-12-01 15:00:00',
-  //     tags: [],
-  //   };
+  it('it should not create a meetup without location field', (done) => {
+    const meetup = {
+      topic: 'The Tech group',
+      happeningOn: '2018-12-01 15:00:00',
+      tags: [],
+    };
 
-  //   chai.request(server)
-  //     .post('/api/v1/meetup')
-  //     .send(meetup)
-  //     .end((err, res) => {
-  //       res.should.have.status(422);
-  //       res.body.should.be.a('object');
-  //       res.body.error.should.be.a('array');
-  //       res.body.error[0].should.be.a('object');
-  //       res.body.error[0].location.should.have.eql('location field is required');
-  //       done();
-  //     });
-  // });
+    chai.request(server)
+      .post('/api/v1/meetup')
+      .send(meetup)
+      .end((err, res) => {
+        res.should.have.status(422);
+        res.body.should.be.a('object');
+        res.body.error.should.be.a('array');
+        res.body.error[0].should.be.a('object');
+        res.body.error[0].location.should.have.eql('location field is required');
+        done();
+      });
+  });
 
-  // it('it should not create a meetup without happening on field', (done) => {
-  //   const meetup = {
-  //     topic: 'The Tech group',
-  //     location: 'Ikeja, Lagos',
-  //     tags: [],
-  //   };
+  it('it should not create a meetup without happening on field', (done) => {
+    const meetup = {
+      topic: 'The Tech group',
+      location: 'Ikeja, Lagos',
+      tags: [],
+    };
 
-  //   chai.request(server)
-  //     .post('/api/v1/meetup')
-  //     .send(meetup)
-  //     .end((err, res) => {
-  //       res.should.have.status(422);
-  //       res.body.should.be.a('object');
-  //       res.body.error.should.be.a('array');
-  //       res.body.error[0].should.be.a('object');
-  //       res.body.error[0].happeningOn.should.have.eql('happeningOn field is required');
-  //       done();
-  //     });
-  // });
+    chai.request(server)
+      .post('/api/v1/meetup')
+      .send(meetup)
+      .end((err, res) => {
+        res.should.have.status(422);
+        res.body.should.be.a('object');
+        res.body.error.should.be.a('array');
+        res.body.error[0].should.be.a('object');
+        res.body.error[0].happeningOn.should.have.eql('happeningOn field is required');
+        done();
+      });
+  });
 
-  // it('it should not create a meetup without tags field', (done) => {
-  //   const meetup = {
-  //     topic: 'The Tech group',
-  //     location: 'Ikeja, Lagos',
-  //     happeningOn: '2018-12-08 15:00:00',
-  //   };
+  it('it should not create a meetup without tags field', (done) => {
+    const meetup = {
+      topic: 'The Tech group',
+      location: 'Ikeja, Lagos',
+      happeningOn: '2018-12-08 15:00:00',
+    };
 
-  //   chai.request(server)
-  //     .post('/api/v1/meetup')
-  //     .send(meetup)
-  //     .end((err, res) => {
-  //       res.should.have.status(422);
-  //       res.body.should.be.a('object');
-  //       res.body.error.should.be.a('array');
-  //       res.body.error[0].should.be.a('object');
-  //       res.body.error[0].tags.should.have.eql('tags field is required');
-  //       done();
-  //     });
-  // });
+    chai.request(server)
+      .post('/api/v1/meetup')
+      .send(meetup)
+      .end((err, res) => {
+        res.should.have.status(422);
+        res.body.should.be.a('object');
+        res.body.error.should.be.a('array');
+        res.body.error[0].should.be.a('object');
+        res.body.error[0].tags.should.have.eql('tags field is required');
+        done();
+      });
+  });
 
-  // it('it should not create a meetup if topic characters is less than 5', (done) => {
-  //   const meetup = {
-  //     topic: 'The',
-  //     location: 'Ikeja, Lagos',
-  //     happeningOn: '2018-12-08 15:00:00',
-  //     tags: [],
-  //   };
+  it('it should not create a meetup if topic characters is less than 5', (done) => {
+    const meetup = {
+      topic: 'The',
+      location: 'Ikeja, Lagos',
+      happeningOn: '2018-12-08 15:00:00',
+      tags: [],
+    };
 
-  //   chai.request(server)
-  //     .post('/api/v1/meetup')
-  //     .send(meetup)
-  //     .end((err, res) => {
-  //       res.should.have.status(422);
-  //       res.body.should.be.a('object');
-  //       res.body.error.should.be.a('array');
-  //       res.body.error[0].should.be.a('object');
-  //       res.body.error[0].topic.should.have.eql('Topic should be more than 5 characters');
-  //       done();
-  //     });
-  // });
+    chai.request(server)
+      .post('/api/v1/meetup')
+      .send(meetup)
+      .end((err, res) => {
+        res.should.have.status(422);
+        res.body.should.be.a('object');
+        res.body.error.should.be.a('array');
+        res.body.error[0].should.be.a('object');
+        res.body.error[0].topic.should.have.eql('Topic should be more than 5 characters');
+        done();
+      });
+  });
 
-  // it('it should not create a meetup if location characters is less than 5', (done) => {
-  //   const meetup = {
-  //     topic: 'The Tech Event',
-  //     location: 'Ike',
-  //     happeningOn: '2018-12-08 15:00:00',
-  //     tags: [],
-  //   };
+  it('it should not create a meetup if location characters is less than 5', (done) => {
+    const meetup = {
+      topic: 'The Tech Event',
+      location: 'Ike',
+      happeningOn: '2018-12-08 15:00:00',
+      tags: [],
+    };
 
-  //   chai.request(server)
-  //     .post('/api/v1/meetup')
-  //     .send(meetup)
-  //     .end((err, res) => {
-  //       res.should.have.status(422);
-  //       res.body.should.be.a('object');
-  //       res.body.error.should.be.a('array');
-  //       res.body.error[0].should.be.a('object');
-  //       res.body.error[0].location.should.have.eql('Location should be more than 5 characters');
-  //       done();
-  //     });
-  // });
+    chai.request(server)
+      .post('/api/v1/meetup')
+      .send(meetup)
+      .end((err, res) => {
+        res.should.have.status(422);
+        res.body.should.be.a('object');
+        res.body.error.should.be.a('array');
+        res.body.error[0].should.be.a('object');
+        res.body.error[0].location.should.have.eql('Location should be more than 5 characters');
+        done();
+      });
+  });
 
-  // it('it should not create a meetup if happening on is not a valid date', (done) => {
-  //   const meetup = {
-  //     topic: 'The Tech Event',
-  //     location: 'Ikeja, Lagos',
-  //     happeningOn: '2018 15:00:00',
-  //     tags: [],
-  //   };
+  it('it should not create a meetup if happening on is not a valid date', (done) => {
+    const meetup = {
+      topic: 'The Tech Event',
+      location: 'Ikeja, Lagos',
+      happeningOn: '2018 15:00:00',
+      tags: [],
+    };
 
-  //   chai.request(server)
-  //     .post('/api/v1/meetup')
-  //     .send(meetup)
-  //     .end((err, res) => {
-  //       res.should.have.status(422);
-  //       res.body.should.be.a('object');
-  //       res.body.error.should.be.a('array');
-  //       res.body.error[0].should.be.a('object');
-  //       res.body.error[0].happeningOn.should.have.eql('HappeningOn should be a valid date time');
-  //       done();
-  //     });
-  // });
+    chai.request(server)
+      .post('/api/v1/meetup')
+      .send(meetup)
+      .end((err, res) => {
+        res.should.have.status(422);
+        res.body.should.be.a('object');
+        res.body.error.should.be.a('array');
+        res.body.error[0].should.be.a('object');
+        res.body.error[0].happeningOn.should.have.eql('HappeningOn should be a valid date time');
+        done();
+      });
+  });
 
-  // it('it should not create a meetup if tags is not an array', (done) => {
-  //   const meetup = {
-  //     topic: 'The Tech Event',
-  //     location: 'Ikeja, Lagos',
-  //     happeningOn: '2018-01-11 15:00:00',
-  //     tags: 'tech',
-  //   };
+  it('it should not create a meetup if tags is not an array', (done) => {
+    const meetup = {
+      topic: 'The Tech Event',
+      location: 'Ikeja, Lagos',
+      happeningOn: '2018-01-11 15:00:00',
+      tags: 'tech',
+    };
 
-  //   chai.request(server)
-  //     .post('/api/v1/meetup')
-  //     .send(meetup)
-  //     .end((err, res) => {
-  //       res.should.have.status(422);
-  //       res.body.should.be.a('object');
-  //       res.body.error.should.be.a('array');
-  //       res.body.error[0].should.be.a('object');
-  //       res.body.error[0].tags.should.have.eql('Tags should be an array');
-  //       done();
-  //     });
-  // });
+    chai.request(server)
+      .post('/api/v1/meetup')
+      .send(meetup)
+      .end((err, res) => {
+        res.should.have.status(422);
+        res.body.should.be.a('object');
+        res.body.error.should.be.a('array');
+        res.body.error[0].should.be.a('object');
+        res.body.error[0].tags.should.have.eql('Tags should be an array');
+        done();
+      });
+  });
 
   it('it should create a new meetup', (done) => {
     const meetup = {
@@ -251,91 +251,56 @@ describe('/GET/:meetupId Meetup', () => {
   });
 });
 describe('/Create meetup rsvp', () => {
-  it('it should not create a new rsvp without the topic field', (done) => {
+
+  it('it should not create a new rsvp without the response field', (done) => {
     const rsvp = {
-      status: 'yes',
+     response: ""
     };
     chai.request(server)
-    .post('/api/v1/meetups/112/rsvps')
+    .post('/api/v1/meetups/1/rsvps')
     .send(rsvp)
     .end((err, res) => {
       res.should.have.status(422);
       res.body.should.be.a('object');
-      res.body.error.should.be.a('array');
-      res.body.error[0].should.be.a('object');
-      res.body.error[0].topic.should.have.eql('topic field is required');
+      res.body.error.should.be.a('string');
+      res.body.error.should.have.eql('All fields are required, you must provide a "response" field');
       done();
     });
   });
 
-  it('it should not create a new rsvp without the status field', (done) => {
-    const rsvp = {
-      topic: 'rsvp me and them',
-    };
-    chai.request(server)
-    .post('/api/v1/meetups/112/rsvps')
-    .send(rsvp)
-    .end((err, res) => {
-      res.should.have.status(422);
-      res.body.should.be.a('object');
-      res.body.error.should.be.a('array');
-      res.body.error[0].should.be.a('object');
-      res.body.error[0].status.should.have.eql('status field is required');
-      done();
-    });
-  });
 
-  it('it should not create a new rsvp if topic characters is less than 5', (done) => {
-    const rsvp = {
-      topic: 'rsv',
-      status: 'yes',
-    };
-    chai.request(server)
-    .post('/api/v1/meetups/112/rsvps')
-    .send(rsvp)
-    .end((err, res) => {
-      res.should.have.status(422);
-      res.body.should.be.a('object');
-      res.body.error.should.be.a('array');
-      res.body.error[0].should.be.a('object');
-      res.body.error[0].topic.should.have.eql('Topic should be more than 5 characters');
-      done();
-    });
-  });
 
   it('it should not create a new rsvp if status value is not equal to YES NO or MAYBE', (done) => {
     const rsvp = {
-      topic: 'rsvp stuff',
-      status: 'postpone',
+      response: 'yesno'
     };
     chai.request(server)
-    .post('/api/v1/meetups/112/rsvps')
+    .post('/api/v1/meetups/1/rsvps')
     .send(rsvp)
     .end((err, res) => {
       res.should.have.status(422);
       res.body.should.be.a('object');
       res.body.error.should.be.a('array');
       res.body.error[0].should.be.a('object');
-      res.body.error[0].status.should.have.eql('Status expects only "yes", "no" and "maybe"');
+      res.body.error[0].response.should.have.eql('Response expects only "yes", "no" and "maybe"');
       done();
     });
   });
 
   it('it should create a new rsvp for a meetup', (done) => {
     const rsvp = {
-      topic: 'lolsdddd',
-      status: 'yes',
+      response: 'yes'
     };
     chai.request(server)
-    .post('/api/v1/meetups/112/rsvps')
+    .post('/api/v1/meetups/1/rsvps')
     .send(rsvp)
     .end((err, res) => {
       res.should.have.status(201);
       res.body.should.be.a('object');
       res.body.data.should.be.a('array');
       res.body.data[0].should.have.property('meetup');
-      res.body.data[0].should.have.property('topic');
-      res.body.data[0].should.have.property('status');
+      res.body.data[0].should.have.property('user');
+      res.body.data[0].should.have.property('response');
       done();
     });
   });
@@ -352,16 +317,16 @@ describe('/GET upcoming meetups', () => {
   });
 });
 
-// describe('/* Any request not found on the server', () => {
-//   it('it should return a 404 error if request is not found on the server', (done) => {
-//     chai.request(server)
-//     .get('/api/v1/meetups/upcoaming')
-//     .end((err, res) => {
-//       res.should.have.status(404);
-//       res.body.should.be.a('object');
-//       res.body.error.should.be.a('string');
-//       res.body.error.should.have.property('error');
-//       done();
-//     });
-//   });
-// });
+describe('/* Any request not found on the server', () => {
+  it('it should return a 404 error if request is not found on the server', (done) => {
+    chai.request(server)
+    .get('/api/v1/rrr')
+    .end((err, res) => {
+      res.should.have.status(404);
+      res.body.should.be.a('object');
+      res.body.error.should.be.a('string');
+      res.body.error.should.have.eql('resource not found on the server');
+      done();
+    });
+  });
+});

@@ -23,7 +23,7 @@ app.use((req, res, next) => {
 app.use('/api/v1', questionRoutes);
 app.use('/api/v1', meetupRoutes);
 
-app.use((req, res)=> {
+app.use('*', (req, res)=> {
 	res.status(404).json({status: 404, error: 'resource not found on the server'});
 })
 
