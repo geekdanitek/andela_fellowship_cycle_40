@@ -50,16 +50,16 @@ class MeetupValidations {
 	}
 
 	rsvpMeetupValidation(req, res, next) {
-		const { topic, status } = req.body;
+		const { response } = req.body;
 
-		if(!topic && !status){
+		if(!response){
 	    	return res.status(422).json({
 		        status: 422,
-		        error: 'All fields are required, you must provide the topic and status'
+		        error: 'All fields are required, you must provide a "response" field'
 		    });
 	    }
 
-	    let requiredFields = helpers.isRequired(req.body, ['topic', 'status']);
+	    let requiredFields = helpers.isRequired(req.body, ['response']);
 
 		if (typeof requiredFields == 'object' && requiredFields.length > 0) {
 		    return res.status(422).json({
@@ -69,13 +69,10 @@ class MeetupValidations {
 		}
 
 		const errors = [];
-		if(topic.length <= 5){
-			errors.push({topic: 'Topic should be more than 5 characters'});
-		}
 
 		const setStatus = ['yes', 'no', 'maybe'];
-		if(!setStatus.includes(status)){
-			errors.push({status: 'Status expects only "yes", "no" and "maybe"'});
+		if(!setStatus.includes(response)){
+			errors.push({response: 'Response expects only "yes", "no" and "maybe"'});
 		}
 
 		if(errors.length > 0){
