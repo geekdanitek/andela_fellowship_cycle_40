@@ -11,11 +11,11 @@ const dropTables = async () => {
 						DROP TABLE IF EXISTS votes CASCADE;
 						`;
 		const response = await database.query(query);
-		await database.end();
-		console.log(response);
+		// await database.end();
+		//console.log(response);
 
 	} catch (errors) {
-		console.log(errors);
+		//console.log(errors);
 	}
 }
 

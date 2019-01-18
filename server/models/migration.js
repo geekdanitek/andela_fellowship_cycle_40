@@ -12,10 +12,10 @@ const createTables  = async () => {
 	        firstname VARCHAR(191) NOT NULL,
 	        lastname VARCHAR(191) NOT NULL,
 	        othername VARCHAR(191) NOT NULL,
-	        email VARCHAR(191) UNIQUE NOT NULL,
+	        email VARCHAR(191) NOT NULL,
 	        password VARCHAR(191) NOT NULL,
 	        phoneNumber VARCHAR(20) NOT NULL,
-	        username VARCHAR(191) UNIQUE NOT NULL,
+	        username VARCHAR(191) NOT NULL,
 	        isAdmin BOOLEAN DEFAULT FALSE,
 	        registered TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP);
 
@@ -33,6 +33,7 @@ const createTables  = async () => {
 	        createdOn TIMESTAMPTZ DEFAULT NOW(),
 	        createdBy INT NOT NULL,
 	        meetupId INT NOT NULL,
+	        votes INT DEFAULT 0,
 	        title VARCHAR(255) NOT NULL,
 	        body TEXT NOT NULL,
 	        FOREIGN KEY (createdBy) REFERENCES users (id) ON DELETE CASCADE,
@@ -49,13 +50,11 @@ const createTables  = async () => {
 
 	        CREATE TABLE IF NOT EXISTS comments(
 	        id SERIAL PRIMARY KEY,
-	        meetupId INT NOT NULL,
 	        questionId INT NOT NULL,
 	        comment TEXT NOT NULL,
 	        userId INT NOT NULL,
 	        createdOn TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	        FOREIGN KEY (userId) REFERENCES users (id) ON DELETE CASCADE,
-	        FOREIGN KEY (meetupId) REFERENCES meetups (id) ON DELETE CASCADE,
 	        FOREIGN KEY (questionId) REFERENCES questions (id) ON DELETE CASCADE);
 	        
 	        CREATE TABLE IF NOT EXISTS votes(
@@ -75,13 +74,19 @@ const createTables  = async () => {
 	        INSERT INTO meetups (topic,location,happeningOn,tags) 
             VALUES ('This is a topic to test', 'Ikeja, Lagos Test', '2018-12-01 15:00:00', '{""}');
 
+            INSERT INTO meetups (topic,location,happeningOn,tags) 
+            VALUES ('This is a topic to test', 'Ikeja, Lagos Test', '2020-12-01 15:00:00', '{""}');
+
+            INSERT INTO questions (createdBy, meetupId, title, body)
+            VALUES (1, 1, 'When is facebook meetup', 'When is the next meetup available pls');
+
 		`;
 
 		const response = await database.query(query);
-		console.log(response);
-		await database.end();
+		//console.log(response);
+		// await database.end();
 	} catch (error) {
-		console.log(error);
+		//console.log(error);
 	}
 	
 }
