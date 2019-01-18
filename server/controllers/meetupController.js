@@ -15,7 +15,6 @@ class MeetupController {
         }
 
     } catch (error) {
-
       Helpers.errorResponse(res, 500, error.message);
     }
   }
