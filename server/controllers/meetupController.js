@@ -23,17 +23,42 @@ class MeetupController {
     try {
 
       const { meetupId } = req.params;
-      const query =  `SELECT * FROM meetups WHERE id='${meetupId}'`;
-      const response = await database.query(query);
+      const meetupQuery =  `SELECT * FROM meetups WHERE meetups.id='${meetupId}'`;
+      const questionQuery = `SELECT * FROM questions WHERE questions.meetupid='${meetupId}' ORDER BY questions.createdon DESC`;
+      const meetupResponse = await database.query(meetupQuery);
+      // Helpers.successResponse(res, 201, query);
+      // return;
 
-      if(response.rows.length < 1) {
+      if(meetupResponse.rows.length < 1) {
         return Helpers.errorResponse(res, 404, 'Meetup not found');
       }
       
-      const meetup = response.rows[0];
+      const meetup = meetupResponse.rows[0];
       meetup.happeningon = Helpers.dateFormatter(String(meetup.happeningon));
+      meetup.createdon = Helpers.dateFormatter(String(meetup.createdon));
 
-       Helpers.successResponse(res, 201, [meetup]);
+      const questionResponse = await database.query(questionQuery);
+      const questions = [];
+
+      if (questionResponse && questionResponse.rows) {
+          questionResponse.rows.map(question => {
+            questions.push({
+              id: question.id,
+              createdon: Helpers.dateFormatter(String(question.createdon)),
+              createdby: question.createdby,
+              meetupid: question.meetupid,
+              votes: question.votes,
+              title: question.title,
+              body: question.body
+            })
+          });
+      }
+      const response = {
+        meetup,
+        questions,
+      };
+
+       Helpers.successResponse(res, 201, [response]);
 
     } catch (error) {
 
@@ -63,7 +88,7 @@ class MeetupController {
           happeningon: Helpers.dateFormatter(String(meetup.happeningon)),
           image: meetup.image,
           tags: meetup.tags,
-          createdon: meetup.createdon
+          createdon: Helpers.dateFormatter(String(meetup.createdon))
 
         })
       })
@@ -133,6 +158,7 @@ class MeetupController {
     }
   }
 
+  
   static async getUpcomingMeetups(req, res) {
     
     try {
@@ -155,7 +181,7 @@ class MeetupController {
           happeningon: Helpers.dateFormatter(String(meetup.happeningon)),
           image: meetup.image,
           tags: meetup.tags,
-          createdon: meetup.createdon
+          createdon: Helpers.dateFormatter(String(meetup.createdon))
 
         })
       })

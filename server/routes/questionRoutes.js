@@ -6,6 +6,19 @@ import Middleware from '../middlewares/middleware';
 
 const router = express.Router();
 
+router.get(
+	'/questions/:questionId',
+	Auth.verifyToken,
+	questionController.getQuestion
+);
+
+router.get(
+	'/comments/:questionId',
+	Auth.verifyToken,
+	Middleware.checkForQuestionExistence,
+	questionController.getComments
+);
+
 router.post(
   '/questions',
   Auth.verifyToken,

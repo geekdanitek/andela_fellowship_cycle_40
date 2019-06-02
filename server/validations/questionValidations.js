@@ -23,11 +23,11 @@ class QuestionValidations {
 
 	    const errors = [];
 	    
-	  	if(helpers.isLength(title, 5)){
+	  	if(helpers.isLength(title, 1)){
 			errors.push({ title: 'Title should be more than 5 characters' });
 		}
 
-		if(helpers.isLength(body, 5)){
+		if(helpers.isLength(body, 1)){
 			errors.push({ body: 'Body should be more than 5 characters' });
 		}
 
@@ -69,8 +69,8 @@ class QuestionValidations {
 			errors.push({questionId: 'Question id should be a number'});
 		}
 
-		if(helpers.isLength(comment, 5)){
-			errors.push({ comment: 'Comment should be more than 5 characters' });
+		if(helpers.isLength(comment, 1)){
+			errors.push({ comment: 'Comment should be more than 1 characters' });
 		}
 
 		if(errors.length > 0){
