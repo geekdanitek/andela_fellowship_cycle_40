@@ -85,5 +85,46 @@ class QuestionController {
       return Helpers.errorResponse(res, 500, error.message);
     }
   }
+
+  static async getQuestion(req, res) {
+    try {
+      const { questionId } = req.params;
+      const query = `SELECT * FROM questions where id='${Number(questionId)}'`;
+      const response = await database.query(query);
+      if(response) {
+        const data = response.rows[0];
+        data.createdon = Helpers.dateFormatter(String(data.createdon));
+        return Helpers.successResponse(res, 201, data);
+      } 
+    } catch (error) {
+      return Helpers.errorResponse(res, 500, error.message);
+    }
+  }
+
+  static async getComments(req, res) {
+    try {
+      const { questionId } = req.params;
+      const query = `SELECT *, (SELECT row_to_json(users) FROM (
+        SELECT firstname, lastname FROM users WHERE id=comments.userid
+       ) users) AS user FROM comments WHERE comments.questionid='${Number(questionId)}' ORDER BY comments.createdon DESC`;
+      const response = await database.query(query);
+      if(response) {
+        const data = response.rows;
+        const comments = [];
+        data.map((comment) => {
+          comments.push({
+            id: comment.id,
+            questionid: comment.questionid,
+            comment: comment.comment,
+            user: comment.user,
+            createdon: Helpers.dateFormatter(String(comment.createdon)),
+          });
+        });
+        return Helpers.successResponse(res, 201, comments);
+      }
+    } catch (error) {
+      return Helpers.errorResponse(res, 500, error.message);
+    }
+  }
 }
 export default QuestionController;
